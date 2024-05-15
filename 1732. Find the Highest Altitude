@@ -1,0 +1,30 @@
+//Using prefix sum
+/**
+ * @param {number[]} gain
+ * @return {number}
+ */
+var largestAltitude = function(gain) {
+    let currAl =0;
+    let max=currAl;
+    for(let i=0; i<gain.length ; i++){
+        currAl+= gain[i];
+        max = Math.max(max, currAl);
+    }
+    return max;
+};
+
+
+//Using Js array reduce callback function
+/**
+ * @param {number[]} gain
+ * @return {number}
+ */
+var largestAltitude = function(gain) {
+    let max=0;
+    let netGain = gain.reduce((prefixSum, curr) => {
+        max= Math.max(max, prefixSum)
+        // console.log(`prefixSum: ${prefixSum},curr: ${curr}, ${prefixSum + curr}, max: ${max}`)
+        return (prefixSum, prefixSum + curr);
+})
+    return Math.max(netGain,max);
+};
