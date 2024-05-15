@@ -1,0 +1,49 @@
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[][]}
+ */
+var findDifference = function(nums1, nums2) {
+    let map2 ={}
+    let answer=[[],[]];
+
+    for(let i =0; i<nums2.length;i++){
+        map2[nums2[i]]=false;
+    }
+
+    for(let i =0; i<nums1.length;i++){
+        if(nums1[i] in map2){
+            map2[nums1[i]]=true;
+        }else{
+            if(!answer[0].includes(nums1[i])){
+                answer[0].push(nums1[i]);
+            }
+        }
+    }
+
+    for(let key in map2){
+        if(map2[key]==false){
+        answer[1].push(key);
+        }
+    }
+    return answer;
+};
+
+//use set in JS
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[][]}
+ */
+var findDifference = function(nums1, nums2) {
+    nums1 = new Set(nums1)
+    nums2 = new Set(nums2);
+
+    for(let num of nums1){
+        if(nums2.has(num)){
+            nums1.delete(num);
+            nums2.delete(num);
+        }
+    }
+    return [Array.from(nums1), Array.from(nums2)]
+};
