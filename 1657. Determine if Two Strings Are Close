@@ -1,3 +1,4 @@
+//Use map and sorting
 /**
  * @param {string} word1
  * @param {string} word2
@@ -42,4 +43,49 @@ var closeStrings = function(word1, word2) {
         }
     }
     return status;
+};
+
+//use arraymap and without sorting
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {boolean}
+ */
+var closeStrings = function(word1, word2) {
+    if(word1.length != word2.length){
+        return false;
+    }
+    let array1 = new Array(26).fill(0);
+    let array2 = new Array(26).fill(0);
+    //cummulative of the frequency (eg: 3 times for 1 frequency)
+    let cummValue1 = new Array(word1.length+1).fill(0);
+    let cummValue2 = new Array(word1.length+1).fill(0);
+
+    for(let i of word1){
+        array1[i.charCodeAt(0)-'a'.charCodeAt(0)]++;
+        cummValue1[array1[i.charCodeAt(0)-'a'.charCodeAt(0)]]++;
+        // console.log('array',array1)
+        // console.log('cumm',cummValue1)
+    }
+
+    for(let i of word2){
+        array2[i.charCodeAt(0)-'a'.charCodeAt(0)]++;
+        cummValue2[array2[i.charCodeAt(0)-'a'.charCodeAt(0)]]++;
+        // console.log('array2',array2)
+        // console.log('cumm2',cummValue2)
+    }
+
+    for(let i =0; i<26;i++){
+        if((array1[i]!=0&& array2[i]==0) || (array1[i]==0 && array2[i]!=0)){
+            return false;
+        }
+    }
+    
+    console.log(cummValue1)
+    for(let i=0; i<cummValue1.length; i++){
+        if(cummValue1[i]!== cummValue2[i]){
+            return false;
+        }
+    }
+    return true;
 };
