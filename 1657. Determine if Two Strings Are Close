@@ -1,0 +1,45 @@
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {boolean}
+ */
+var closeStrings = function(word1, word2) {
+    let map1 = new Map();
+    let map2 = new Map();
+    let status= false;
+
+    if(word1.length != word2.length){
+        return false;
+    }
+
+    for(let i of word1){
+            map1.set(i,(map1.get(i)||0)+1);
+    }
+    for(let i of word2){
+        map2.set(i, (map2.get(i)||0)+1);
+    }
+
+    for(let i of map1.keys()){
+        if(map2.has(i)){
+            status=true;
+        }else{
+            return false;
+        }
+    }
+
+    let array1= (Array.from(map1.values())).sort((a,b) => a-b);
+    let array2= (Array.from(map2.values())).sort((a,b) => a-b);
+
+    if(array1.length != array2.length){
+        return false;
+    }
+
+    for(let i=0; i <array1.length; i++){
+        if(array1[i] == array2[i]){
+            status=true;
+        }else{
+            return false;
+        }
+    }
+    return status;
+};
