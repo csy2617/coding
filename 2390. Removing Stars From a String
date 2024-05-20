@@ -1,0 +1,17 @@
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var removeStars = function(s) {
+    let stackie = [];
+    for(let char of s){
+        if(char == '*'){
+            if(stackie.length != 0){
+            stackie.pop();
+            }
+        }else{
+        stackie.push(char);
+        }
+    }
+    return stackie.join('');
+};
