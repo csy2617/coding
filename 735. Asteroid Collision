@@ -1,0 +1,29 @@
+/**
+ * @param {number[]} asteroids
+ * @return {number[]}
+ */
+var asteroidCollision = function(asteroids) {
+    let stack=[];
+    for(let num of asteroids){
+        let collide = () => {
+        let topNum = stack[stack.length-1];
+        if(stack.length!=0 && (topNum>0 && num<0)){
+            if(Math.abs(topNum)> Math.abs(num)){
+                return false;
+            }else if(Math.abs(topNum)< Math.abs(num)){
+                stack.pop();
+                return collide();
+            }else{
+                stack.pop();
+                return false;
+            }
+        }
+        return true;
+        }
+        let bool = collide();
+        if(bool==true){
+        stack.push(num);
+        }
+    }
+    return stack;
+};
