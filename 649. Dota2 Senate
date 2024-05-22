@@ -1,0 +1,43 @@
+/**
+ * @param {string} senate
+ * @return {string}
+ */
+var predictPartyVictory = function(senate) {
+    let stack=[];
+    let rBan = 0,dBan =0;
+    let rCount=0,dCount=0;
+    
+    for(let i =0; i < senate.length;i++){
+        stack.push(senate[i]);
+        //console.log(senate[i]);
+        if(senate[i] == 'D'){
+            dCount++;
+        }else{
+            rCount++;
+        }
+    }
+    //console.log('1Radiant:',rCount, '1Dire:',dCount)
+    while(rCount > 0 && dCount>0){
+        let curr=stack.shift();
+
+        if(curr == 'R'){
+            if(rBan>0){
+                rBan--;
+                rCount--;
+            }else{
+                dBan++;
+                stack.push('R');
+            }
+        }else{
+            if(dBan>0){
+                dBan--;
+                dCount--;
+            }else{
+                rBan++;
+                stack.push('D');
+            }
+        }
+    }
+    //console.log('Radiant:',rCount, 'Dire:',dCount)
+    return dCount == 0? 'Radiant': 'Dire';
+};
