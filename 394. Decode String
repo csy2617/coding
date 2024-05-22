@@ -1,3 +1,4 @@
+//using single stack
 /**
  * @param {string} s
  * @return {string}
@@ -30,5 +31,38 @@ var decodeString = function(s) {
             
         }
         return stack.join("");
+    
+};
+//using two stacks
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var decodeString = function(s) {
+    let countStack = [];
+    let stringStack = [];
+    let k=0;
+    let currentStr='';
+    let currentK=0;
+     //tranverse through string s
+    for(let i=0; i<s.length;i++){
+        if(!isNaN(s[i])){
+            k = k* 10 + Number(s[i]);
+        }else if(s[i]=='['){
+            countStack.push(k);
+            k=0;
+            stringStack.push(currentStr);
+            currentStr='';
+        }else if(s[i]==']'){
+            let decodedString= stringStack.pop();
+            for(let i=countStack.pop();i>0;i--){
+                decodedString = decodedString + currentStr;
+            }
+            currentStr = decodedString;
+        }else{
+            currentStr += s[i];
+        }    
+    }
+    return currentStr;
     
 };
