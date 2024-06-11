@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var longestZigZag = function(root) {
+    let max=0;
+    let zigzag = (node, total, direction) =>{
+        //console.log(node, total, direction);
+        if(node == null){
+            return;
+        }
+        max = Math.max(max, total);
+        //console.log(max)
+        if(direction == 'left'){
+            zigzag(node.right, total+1, 'right');
+            zigzag(node.left, 1, 'left');
+        }else if(direction == 'right'){
+            zigzag(node.left, total+1, 'left');
+            zigzag(node.right, 1, 'right');
+        }
+    }
+    
+    zigzag(root, 0, 'left');
+    zigzag(root, 0, 'right');
+    return max;
+};
