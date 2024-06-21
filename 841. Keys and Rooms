@@ -1,0 +1,25 @@
+/**
+ * @param {number[][]} rooms
+ * @return {boolean}
+ */
+var canVisitAllRooms = function(rooms) {
+    let keys = [];
+    let seen = [true];
+    keys.push(rooms[0]);
+
+    while(keys.length!=0){
+        let node= keys.pop();
+        for(let i = 0; i <node.length;i++){
+            if(!seen[node[i]]){
+                seen[node[i]]=true;
+                keys.push(rooms[node[i]]);
+            }
+        }
+    }
+    console.log(seen[2], !seen[2], rooms.length)
+    for(let i =0; i < rooms.length;i++){
+        if(!seen[i]){
+            return false;
+        }
+    }return true;
+};

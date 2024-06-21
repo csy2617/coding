@@ -1,0 +1,26 @@
+/**
+ * @param {number} n
+ * @param {number[][]} connections
+ * @return {number}
+ */
+var minReorder = function(n, connections) {
+    let graph = new Array(n).fill(null).map(()=>[]);
+
+    for(let [u, v] of connections){
+        graph[u].push([v, 1]);
+        graph[v].push([u, 0]);
+    }
+
+    dfs =(node, parent) =>{
+        let changePath=0;
+        for(let [neighbour, direction] of graph[node]){
+            if(neighbour!=parent){
+                changePath += direction;
+                changePath += dfs(neighbour, node);
+            }
+        }
+        return changePath;
+    }
+
+    return dfs(0, -1);
+};

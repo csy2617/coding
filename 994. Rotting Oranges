@@ -1,0 +1,46 @@
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var orangesRotting = function(grid) {
+    let movement = [[0,1],[0,-1], [1,0],[-1,0]];
+    let rotten=[];
+    let freshO =0;
+    let minute=-1;
+    for(let i = 0; i < grid.length;i++){
+        for(let j = 0; j <grid[0].length; j++){
+            if(grid[i][j]==2){
+                rotten.push([i,j]);
+            }else if(grid[i][j]==1){
+                freshO ++;
+            }
+        }
+    }
+    rotten.push([-1,-1]);
+
+    while(rotten.length>0){
+        let currO = rotten.shift();
+        let currRow = currO[0], currCol = currO[1];
+        if(currRow==-1){
+            minute++;
+
+            if(rotten.length>0){
+                rotten.push([-1,-1]);
+            }
+        }else{
+           // console.log(currO, 'fresh:', freshO, 'minute:',minute);
+            for(let direction of movement){
+                let nextRow = currRow + direction[0], nextCol = currCol + direction[1];
+                if(nextRow>=0 && nextRow< grid.length && nextCol >=0 && nextCol<grid[0].length && grid[nextRow][nextCol]==1){
+                    rotten.push([nextRow, nextCol]);
+                    grid[nextRow][nextCol] = 2;
+                    freshO--;
+                }
+                //console.log('rotten in loop:',rotten);
+            }
+        }
+        
+    }
+
+    return freshO == 0? minute : -1;
+};

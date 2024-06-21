@@ -1,0 +1,29 @@
+var nearestExit = function(maze, entrance) {
+    let totalRow= maze.length;
+    let totalCol = maze[0].length;
+
+    let startRow = entrance[0], startCol = entrance[1];
+    maze[startRow][startCol] = '+';
+    let moving = [[0,1], [0,-1],[1,0],[-1,0]];
+
+    let queue = [];
+    queue.push([startRow, startCol, 0]);
+
+    while(queue.length>0){
+        let current = queue.shift();
+        let currRow= current[0], currCol= current[1], currDis = current[2];
+
+        for(let action of moving){
+            let nextRow = currRow + action[0], nextCol = currCol + action[1];
+
+            if(nextRow >= 0 && nextRow < totalRow && nextCol >= 0 && nextCol < totalCol && maze[nextRow][nextCol] == '.'){
+                if(nextRow == 0 || nextRow == totalRow -1 || nextCol == 0 || nextCol == totalCol -1 ){
+                    return currDis +1;
+                }else{
+               maze[nextRow][nextCol] = '+';
+               queue.push([nextRow, nextCol, currDis +1]);}
+            } 
+        }
+    }
+return -1;
+};

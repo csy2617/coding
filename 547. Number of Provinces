@@ -1,0 +1,29 @@
+/**
+ * @param {number[][]} isConnected
+ * @return {number}
+ */
+var findCircleNum = function(isConnected) {
+    
+     dfs= (city) =>{
+        visited.add(city);
+        //console.log(visited);
+        for(let neighbour =0; neighbour < isConnected[city].length;neighbour++){
+            if(isConnected[city][neighbour]==1 && !visited.has(neighbour)){
+                console.log('here',neighbour, !visited.has(neighbour));
+                dfs(neighbour);
+            }
+        }
+    }
+
+    let visited = new Set();
+    let provinces= 0;
+    for(let city =0; city < isConnected.length; city++){
+        if(!visited.has(city)){
+            provinces++;
+            dfs(city);
+        }
+    }
+
+   
+    return provinces;
+};
