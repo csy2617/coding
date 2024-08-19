@@ -1,0 +1,102 @@
+var SmallestInfiniteSet = function() {
+    this.isPresent = new Set();
+    this.addedIntegers = new minHeap();;
+    this.currentInteger = 1;
+};
+
+/**
+ * @return {number}
+ */
+SmallestInfiniteSet.prototype.popSmallest = function() {
+    let answer = 0;
+    if(this.addedIntegers.size()>0){
+        // console.log(this.addedIntegers, 'here');
+        let removed = this.addedIntegers.remove();
+        //console.log(removed, 'here');
+        this.isPresent.delete(removed);
+        answer = removed;
+    }else{
+        answer = this.currentInteger;
+        this.currentInteger++;
+    }
+    //console.log(answer);
+    return answer;
+};
+
+/** 
+ * @param {number} num
+ * @return {void}
+ */
+SmallestInfiniteSet.prototype.addBack = function(num) {
+    if(this.currentInteger<= num || this.isPresent.has(num)){
+        return;
+    }else{
+        this.addedIntegers.insert(num);
+        this.isPresent.add(num);
+    }
+    //console.log(this.currentInteger, this.addedIntegers, this.isPresent)
+};
+
+class minHeap{
+    constructor(){
+        this.heap = [];
+    }
+
+    size(){
+        return this.heap.length;
+    }
+
+    insert(value){
+        this.heap.push(value);
+        let currentIndex = this.heap.length -1;
+        let currentValue = this.heap[currentIndex];
+        while(currentIndex>0){
+        let parentIndex = Math.floor((currentIndex -1 )/2);
+        let parentValue = this.heap[parentIndex];
+            if(currentValue>parentValue){
+                break;
+            }
+            this.heap[currentIndex] = parentValue;
+            this.heap[parentIndex] = currentValue;
+            currentIndex = parentIndex;
+        }
+    }
+
+    remove(){
+        if (this.heap.length === 0) return null;
+        if (this.heap.length === 1) return this.heap.pop();
+
+        let removedVal = this.heap[0];
+        this.heap[0] = this.heap[this.heap.length -1]
+        this.heap.pop();
+        let currentVal = this.heap[0];
+        let currentIndex =0;
+        let leftIndex, rightIndex;
+        while(true){
+            leftIndex = currentIndex *2 +1;
+            rightIndex = currentIndex *2 + 2;
+             let swap = null;
+            let leftVal, rightVal;
+             if(leftIndex< this.heap.length){
+                leftVal = this.heap[leftIndex];
+                if(leftVal < currentVal){
+                    swap = leftIndex;
+                }
+            }
+            if(rightIndex < this.heap.length){
+                rightVal = this.heap[rightIndex];
+                if((swap != null && rightVal < leftVal) || (swap == null && rightVal < currentVal)){
+                    swap = rightIndex;
+                }
+            }
+            if(swap == null){
+                break;
+            }
+            this.heap[currentIndex] = this.heap[swap];
+            this.heap[swap] = currentVal
+            currentIndex = swap;
+        }
+        return removedVal;
+    }
+
+};

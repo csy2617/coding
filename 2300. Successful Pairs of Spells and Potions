@@ -1,0 +1,38 @@
+/**
+ * @param {number[]} spells
+ * @param {number[]} potions
+ * @param {number} success
+ * @return {number[]}
+ */
+var successfulPairs = function(spells, potions, success) {
+    let result=[];
+    let potionsSort = potions.sort((a,z)=>a-z);
+    let maxPotion = potionsSort[potionsSort.length-1];
+    for(let spell of spells){
+        let minPotion = Math.ceil(success/spell);
+            //console.log('min',minPotion);
+        if(maxPotion < minPotion){
+            result.push(0);
+            continue;
+        }else{
+            let index = findIndex(potionsSort, minPotion);
+            //console.log('index',index);
+            result.push(potions.length - index);
+        }
+    }
+        return result;
+    
+};
+    //need do binary search
+    let findIndex = (arr, key) =>{
+        let low=0; high= arr.length;
+        while(low<high){
+            let mid = Math.floor((high+low)/2);
+            if(arr[mid] <key){
+                low = mid+1;
+            }else{
+                high= mid;
+            }
+    }
+    return low;
+    }

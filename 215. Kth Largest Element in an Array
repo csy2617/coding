@@ -1,0 +1,64 @@
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var findKthLargest = function(nums, k) {
+    let heapInsert= (newValue) => {
+        heap.push(newValue);
+        let currentIndex = heap.length-1;
+        let currentVal= heap[currentIndex];
+        while(currentIndex > 0){
+            let parentIndex = Math.floor((currentIndex-1)/2);
+            let parentVal = heap[parentIndex]
+            if(heap[currentIndex] > heap[parentIndex]){
+                break;
+            }
+            heap[parentIndex] = currentVal;
+            heap[currentIndex] = parentVal;
+            currentIndex= parentIndex;
+        }
+    }
+
+    let heapRemoveRoot = () =>{
+        heap[0] = heap[heap.length-1];
+        heap.pop();
+        let currentIndex =0;
+        let currentVal = heap[currentIndex];
+        while(true){
+            let leftIndex = 2* currentIndex +1;
+            let rightIndex = 2 * currentIndex +2;
+            let leftVal, rightVal;
+            let swap = null;
+            if(leftIndex< heap.length){
+                leftVal = heap[leftIndex];
+                if(leftVal < currentVal){
+                    swap = leftIndex;
+                }
+            }
+            if(rightIndex < heap.length){
+                rightVal = heap[rightIndex];
+                if((swap != null && rightVal < leftVal) || (swap == null && rightVal < currentVal)){
+                    swap = rightIndex;
+                }
+            }
+            if(swap == null) break;
+            heap[currentIndex] = heap[swap];
+            heap[swap] = currentVal;
+            currentIndex = swap;
+        }
+    }
+
+
+    let heap = [];
+    for(let i =0; i <k;i++){
+         heapInsert(nums[i]);
+    }
+    for(let i = k ; i < nums.length;i++){
+        if(nums[i]>= heap[0]){
+            heapRemoveRoot();
+            heapInsert(nums[i]);   
+        }
+    }
+    return heap[0];
+};
